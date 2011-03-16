@@ -62,7 +62,7 @@ class MigratorTasks < ::Rake::TaskLib
         @migrations.each do |path|
           ActiveRecord::Migrator.migrate(path, ENV["VERSION"] ? ENV["VERSION"].to_i : nil)
         end
-        Rake::Task["db:schema:dump"].execute
+        Rake::Task["db:schema:dump"].invoke
       end
 
       desc "Retrieves the current schema version number"
@@ -187,7 +187,7 @@ class MigratorTasks < ::Rake::TaskLib
               raise "Migration #{version} wasn't found on paths #{@migrations.join(', ')}" if migration_path.nil?
             end
             ActiveRecord::Migrator.run(direction, migration_path, version)
-            Rake::Task["db:schema:dump"].execute
+            Rake::Task["db:schema:dump"].invoke
           end
         end
       end
